@@ -6,6 +6,8 @@ Poids d'un détecteur d'objets pour le basket (joueur, joueur avec ballon, tir, 
 |---|---|---|
 | `poids/basketball_v3_full.pt` | checkpoint PyTorch (Ultralytics 8.4.137), entraîné à 640 px | voir `SHA256SUMS` |
 | `poids/basketball_v3_full_1280.onnx` | export ONNX, entrée 1280×1280, NMS intégrée, sortie `[1,300,6]` (x1, y1, x2, y2, score, classe) | voir `SHA256SUMS` |
+| `poids/yolov8n_general.pt` | YOLOv8n d'Ultralytics, poids COCO d'origine, **non modifiés** (copie de `yolov8n.pt`) | voir `SHA256SUMS` |
+| `poids/yolov8n_general_640.onnx` | export ONNX de ce modèle, entrée 640×640 carrée, NMS intégrée, sortie `[1,300,6]` (x1, y1, x2, y2, score, classe), Ultralytics 8.4.137 | voir `SHA256SUMS` |
 
 Classes : 0 ball, 1 ball-in-basket, 2 number, 3 player, 4 player-in-possession, 5 player-jump-shot, 6 player-layup-dunk, 7 player-shot-block, 8 referee, 9 rim.
 
@@ -16,3 +18,8 @@ Classes : 0 ball, 1 ball-in-basket, 2 number, 3 player, 4 player-in-possession, 
 
 ## Licence
 Ces poids sont dérivés d'un modèle Ultralytics et sont donc distribués sous AGPL-3.0, comme l'exige la licence d'Ultralytics. Quiconque les redistribue ou les fait fonctionner pour des tiers à travers un réseau doit respecter l'AGPL-3.0 pour ces fichiers (dont la mise à disposition du code correspondant et de cette provenance). Ce dépôt ne dit rien de juridique sur les logiciels qui chargent ces fichiers comme données.
+
+## Modèle général (personnes, COCO)
+`yolov8n_general.pt` est le checkpoint `yolov8n.pt` publié par Ultralytics (entraîné sur COCO, 80 classes ; la classe 0 = personne sert aux vidéos de téléphone). Il n'a subi aucun entraînement de notre part. Le club le redistribue tel quel, sous AGPL-3.0, avec son export ONNX.
+
+L'export ONNX attend une image **carrée 640×640** : redimensionner en gardant le rapport, centrer sur un fond gris 114, sans rectangle réduit. Avec ce même prétraitement, `.pt` et `.onnx` donnent des boîtes et des classes identiques (3 images vérifiées le 2026-11-07). Avec le cadre rectangulaire adaptatif du `.pt`, les résultats diffèrent légèrement : ce n'est pas un défaut de l'export.
